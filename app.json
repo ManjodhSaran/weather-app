@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.carevation.ai.weatherapp"
+      "bundleIdentifier": "com.carevation.ai.weatherapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "web": {
       "bundler": "metro",
@@ -27,6 +30,13 @@
     },
     "android": {
       "package": "com.carevation.ai.weatherapp"
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9a7b5e83-0584-4905-9642-7feeff973a23"
+      }
+    },
+    "owner": "manjodhsaran"
   }
 }
