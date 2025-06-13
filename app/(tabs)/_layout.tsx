@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
-import { Cloud, Settings } from 'lucide-react-native';
+import { Cloud, SaveIcon, Settings } from 'lucide-react-native';
 
 export default function TabLayout() {
   const { theme } = useTheme();
@@ -31,6 +31,15 @@ export default function TabLayout() {
           title: 'Weather',
           tabBarIcon: ({ size, color }) => (
             <Cloud size={size} color={color} strokeWidth={2} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="saved"
+        options={{
+          title: 'Saved',
+          tabBarIcon: ({ size, color }) => (
+            <SaveIcon size={size} color={color} strokeWidth={2} />
           ),
         }}
       />

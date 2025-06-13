@@ -3,7 +3,7 @@ import { WeatherData, CachedWeatherData } from '@/models/Weather';
 
 const WEATHER_CACHE_KEY = 'weather_cache';
 const CACHE_EXPIRY_HOURS = 1; // Cache expires after 1 hour
-
+const CITY_NAMES_KEY = 'city_names';
 // Storage service following MVVM pattern (Model layer)
 export async function saveWeatherData(
   city: string,
@@ -71,5 +71,28 @@ export async function isCacheExpired(): Promise<boolean> {
     return cachedData === null;
   } catch (error) {
     return true;
+  }
+}
+
+export async function saveCityName(newCityNames: string[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem(CITY_NAMES_KEY, JSON.stringify(newCityNames));
+  } catch (error) {
+    console.error('Error saving city name:', error);
+    throw new Error('Failed to save city name');
+  }
+}
+
+export async function getCityNames(): Promise<string[]> {
+  try {
+    const cityNamesData = await AsyncStorage.getItem(CITY_NAMES_KEY);
+    if (!cityNamesData) {
+      return [];
+    }
+
+    return JSON.parse(cityNamesData);
+  } catch (error) {
+    console.error('Error getting city names:', error);
+    return [];
   }
 }

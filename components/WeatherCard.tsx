@@ -1,8 +1,9 @@
 import { useTheme } from '@/hooks/useTheme';
 import { WeatherData } from '@/models/Weather';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { getWeatherIcon } from '@/services/weatherApi';
 import { Droplets, Wind, Gauge, Eye, Sun, Activity } from 'lucide-react-native';
+import { getCityNames, saveCityName } from '@/services/storage';
 
 interface WeatherCardProps {
   weather: WeatherData;
@@ -19,6 +20,20 @@ export function WeatherCard({ weather, loading, error }: WeatherCardProps) {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  // handling save hisruty in local storage
+  const handleSave = async () => {
+    const existingName = await getCityNames();
+    const newList = existingName
+      ? [...existingName, weather.location]
+      : [weather.location];
+    console.log('newList', newList);
+    await saveCityName(newList);
+    Alert.alert(
+      'City Saved',
+      `You have saved ${weather.location} to your history.`
+    );
   };
 
   return (
@@ -95,6 +110,20 @@ export function WeatherCard({ weather, loading, error }: WeatherCardProps) {
           theme={theme}
         />
       </View>
+
+      <TouchableOpacity onPress={handleSave} activeOpacity={0.7}>
+        <View
+          style={{
+            justifyContent: 'center',
+            flexDirection: 'row',
+            padding: 12,
+            backgroundColor: theme.colors.primary,
+            borderRadius: 8,
+          }}
+        >
+          <Text>Save</Text>
+        </View>
+      </TouchableOpacity>
 
       {loading && (
         <View style={styles.statusContainer}>
